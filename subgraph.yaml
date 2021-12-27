@@ -1,24 +1,32 @@
 specVersion: 0.0.2
-description: Indexing all Ethereum Block data
-repository: https://github.com/blocklytics/ethereum-blocks
+description: Indexing all block data
+repository: https://github.com/solarbeamio/solarbeam-blocklytics
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: ConverterRegistryContract
-    network: rinkeby
+    name: Factory
+    network: moonriver
     source:
-      address: "0x0ddff327ddf7fe838e3e63d02001ef23ad1ede8e"
-      abi: ConverterRegistryContract
+      address: '0x049581aEB6Fe262727f290165C29BDAB065a1B68'
+      abi: Factory
+      startBlock: 530000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
-        - ConverterAddition
+        - Pair
+        - Token
       abis:
-        - name: ConverterRegistryContract
-          file: ./abis/ConverterRegistryContract.json
+        - name: Factory
+          file: ./abis/factory.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       blockHandlers:
         - handler: handleBlock
       file: ./src/mappings/blocks.ts
